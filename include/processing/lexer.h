@@ -5,6 +5,7 @@
 
 #include "../structs/combo.h"
 
-#define VALID_BYTES_AMOUNT 8
+#define REGISTER_AMOUNT  4
+#define OPERATORS_AMOUNT 4
 
 bool get_next_combo(const char *buffer);

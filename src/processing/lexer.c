@@ -4,16 +4,57 @@
 
 static unsigned int start_off = 0;
 
-static const char valid_bytes[VALID_BYTES_AMOUNT] = {
-	'A', 'B', 'X', 'Y', '<', '>', '^', 'v'
+static const char reg_bytes[REGISTER_AMOUNT] = {
+	'A', 'B', 'X', 'Y'
 };
+
+static const char op_bytes[OPERATORS_AMOUNT] = {
+	'<', '>', '^', 'v'
+};
+
+static enum reg identify_reg(const char reg)
+{
+	switch (reg) {
+	case 'A': return A;
+	case 'B': return B;
+	case 'X': return X;
+	case 'Y': return Y;
+	default:  return NONE;
+	}
+}
+
+static void assign_reg(const enum reg reg_type, struct combo *combo)
+{
+	size_t i = 0;
+
+	for (i = 0; i < REGISTER_AMOUNT; i++) {
+		if (combo->regs[i] == NONE) {
+			combo->regs[i] = reg_type;
+			break;
+		}
+	}
+	
+	combo->reg_amount++;
+}
+
+static bool is_byte_register(const char byte)
+{
+	size_t i = 0;
+
+	for (i = 0; i < REGISTER_AMOUNT; i++) {
+		if (reg_bytes[i] == byte)
+			return true;
+	}
+
+	return false;
+}
 
 static bool is_byte_valid(const char byte)
 {
-	unsigned int i = 0;
+	size_t i = 0;
 
-	for (i = 0; i < VALID_BYTES_AMOUNT; i++) {
-		if (valid_bytes[i] == byte)
+	for (i = 0; i < REGISTER_AMOUNT; i++) {
+		if (reg_bytes[i] == byte || op_bytes[i] == byte)
 			return true;
 	}
 
@@ -40,6 +81,11 @@ static bool find_combo_end(const char *buffer, struct combo *combo)
 	char byte = buffer[start_off];
 
 	do {
+		if (is_byte_register(byte) == 1) {
+			enum reg reg_type = identify_reg(byte);
+			assign_reg(reg_type, combo);
+		}
+
 		combo->len++;
 		start_off++;
 		byte = buffer[start_off];
