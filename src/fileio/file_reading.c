@@ -1,23 +1,24 @@
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #include "../../include/fileio/file_reading.h"
 #include "../../include/errors/fileio_errors.h"
 
-unsigned int is_invalid_ret(int ret_code)
+static bool is_invalid_ret(int ret_code)
 {
 	if (ret_code < 0)
-		return 1;
+		return true;
 
-	return 0;
+	return false;
 }
 
-unsigned int is_invalid_read_ret(ssize_t ret_code)
+static bool is_invalid_read_ret(ssize_t ret_code)
 {
 	if (ret_code < 0)
-		return 1;
+		return true;
 
-	return 0;
+	return false;
 }
 
 /*
