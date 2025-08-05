@@ -56,13 +56,14 @@ bool get_next_combo(const char *buffer)
 	struct combo combo = {
 		.len = 0,
 		.reg_amount = 0,
-		.first_reg = NONE,
-		.second_reg = NONE,
-		.third_reg = NONE,
-		.fourth_reg = NONE,
-		.first_reg_op_start_off = 0,
-		.second_reg_op_start_off = 0,
-		.third_reg_op_start_off = 0,
+		.regs[0] = NONE,
+		.regs[1] = NONE,
+		.regs[2] = NONE,
+		.regs[3] = NONE,
+		.regs_op_start_off[0] = 0,
+		.regs_op_start_off[1] = 0,
+		.regs_op_start_off[2] = 0,
+		.regs_op_start_off[3] = 0,
 	};
 
 	const char byte = buffer[start_off];
