@@ -1,6 +1,9 @@
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
 
 #include "../../include/processing/lexer.h"
+#include "../../include/errors/lexing_errors.h"
 
 static unsigned int start_off = 0;
 
@@ -37,6 +40,17 @@ static void assign_reg(const enum reg reg_type, struct combo *combo)
 	combo->reg_amount++;
 }
 
+static void assign_op(struct combo *combo)
+{
+	const size_t  r_amount = combo->reg_amount;
+
+	if (r_amount == 0)
+		error_op_before_first_reg();
+
+	if (r_amount < OPERATORS_AMOUNT)
+		combo->regs_op_start_off[r_amount - 1] = start_off; 
+}
+
 static bool is_byte_register(const char byte)
 {
 	size_t i = 0;
@@ -53,6 +67,7 @@ static bool is_byte_valid(const char byte)
 {
 	size_t i = 0;
 
+	/* Since the amount of registers and operators is the same use one of them */
 	for (i = 0; i < REGISTER_AMOUNT; i++) {
 		if (reg_bytes[i] == byte || op_bytes[i] == byte)
 			return true;
@@ -84,7 +99,7 @@ static bool find_combo_end(const char *buffer, struct combo *combo)
 		if (is_byte_register(byte) == 1) {
 			enum reg reg_type = identify_reg(byte);
 			assign_reg(reg_type, combo);
-		}
+		} else assign_op(combo);
 
 		combo->len++;
 		start_off++;
