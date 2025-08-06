@@ -20,7 +20,7 @@ static enum action identify_reg_act(enum reg reg)
 	case B: return SUBTRACT;
 	case X: return MOVE;
 	case Y: return SWAP;
-	default: return CLEAN;
+	default: return CLEAR;
 	}
 }
 
@@ -31,7 +31,7 @@ static enum action assign_action(struct combo *c)
 	
 
 	switch (r_amount) {
-	case 1: return CLEAN;
+	case 1: return CLEAR;
 	case 2: return COPY;
 	case 3: return identify_reg_act(regs[r_amount - 1]);
 	default: return PRINT;
@@ -65,19 +65,8 @@ static void assign_macess_and_offset(struct combo *c, struct combo_cmd *c_cmd)
 }
 */
 
-struct combo_cmd analyze_combo(struct combo *c)
+void analyze_combo(struct combo *c, struct combo_cmd *c_cmd)
 {
-	struct combo_cmd c_cmd = {
-		.src_reg = NONE,
-		.dst_reg = NONE,
-		.src_offset = 0,
-		.dst_offset = 0,
-		.src_macces = false,
-		.dst_macces = false,
-	};
-
-	assign_src_and_dst_reg(c, &c_cmd);
-	assign_action(c);
-
-	return c_cmd;
+	assign_src_and_dst_reg(c, c_cmd);
+	c_cmd->act = assign_action(c);
 }

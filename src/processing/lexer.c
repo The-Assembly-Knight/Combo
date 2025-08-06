@@ -112,23 +112,8 @@ static bool find_combo_end(const char *buffer, struct combo *combo)
 }
 
 
-bool get_next_combo(const char *buffer)
+bool get_next_combo(const char *buffer, struct combo *c)
 {
-	/* TODO: gotta use bytes_read*/
-
-	struct combo combo = {
-		.len = 0,
-		.reg_amount = 0,
-		.regs[0] = NONE,
-		.regs[1] = NONE,
-		.regs[2] = NONE,
-		.regs[3] = NONE,
-		.regs_op_len[0] = 0,
-		.regs_op_len[1] = 0,
-		.regs_op_len[2] = 0,
-		.regs_op_len[3] = 0,
-	};
-
 	const char byte = buffer[start_off];
 
 	bool combo_beg_found = true;
@@ -138,9 +123,8 @@ bool get_next_combo(const char *buffer)
 
 	if (!combo_beg_found)
 		return false; 
-	/* TODO: Make it return unsigned int to check if the combo was lexed if not then stop*/
 
-	find_combo_end(buffer, &combo);
+	find_combo_end(buffer, c);
 
 	return true;
 }

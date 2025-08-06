@@ -8,4 +8,4 @@
 #define REGISTER_AMOUNT  4
 #define OPERATORS_AMOUNT 4
 
-bool get_next_combo(const char *buffer);
+bool get_next_combo(const char *buffer, struct combo *c);

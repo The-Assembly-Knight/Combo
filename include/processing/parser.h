@@ -3,4 +3,4 @@
 #include "../structs/combo.h"
 #include "../structs/combo_cmd.h"
 
-struct combo_cmd analyze_combo(struct combo *combo);
+void analyze_combo(struct combo *combo, struct combo_cmd *c_cmd);
