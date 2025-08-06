@@ -28,16 +28,16 @@ static enum reg identify_reg(const char reg)
 
 static void assign_reg(const enum reg reg_type, struct combo *combo)
 {
-	size_t i = 0;
 
-	for (i = 0; i < REGISTER_AMOUNT; i++) {
-		if (combo->regs[i] == NONE) {
-			combo->regs[i] = reg_type;
-			break;
-		}
+	const size_t r_amount = combo->reg_amount;
+
+	if (r_amount < REGISTER_AMOUNT) {
+		combo->regs[r_amount] = reg_type;
+		combo->reg_amount++;
+		return;
 	}
-	
-	combo->reg_amount++;
+
+	error_four_plus_reg_combo();
 }
 
 static void assign_op(struct combo *combo)
@@ -139,6 +139,11 @@ bool get_next_combo(const char *buffer)
 	/* TODO: Make it return unsigned int to check if the combo was lexed if not then stop*/
 
 	find_combo_end(buffer, &combo);
+
+	printf("Amount of registers: %u\n", combo.reg_amount);
+	printf("First register is: %u\n", combo.regs[0]);
+	printf("First operator starts at: %u\n", combo.regs_op_start_off[0]);
+
 
 	return true;
 }
