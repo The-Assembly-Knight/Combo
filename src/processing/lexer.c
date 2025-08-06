@@ -49,6 +49,8 @@ static void assign_op(struct combo *combo)
 
 	if (r_amount < OPERATORS_AMOUNT)
 		combo->regs_op_len[r_amount - 1]++;
+	else
+		error_op_after_fourth_reg();
 }
 
 static bool is_byte_register(const char byte)

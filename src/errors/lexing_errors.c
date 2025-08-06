@@ -13,3 +13,9 @@ void error_four_plus_reg_combo(void)
 	perror("ERROR: A combo contains an excess of registers");
 	exit(EXIT_FAILURE);
 }
+
+void error_op_after_fourth_reg(void)
+{
+	perror("ERROR: A combo containts operators after its fourth register");
+	exit(EXIT_FAILURE);
+}
