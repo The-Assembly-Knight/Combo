@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow \
 -Wstrict-prototypes -Werror -g -O2 -std=gnu99
 
 # Source and object files
-SRC = main.c src/fileio/file_reading.c src/errors/fileio_errors.c src/warning_messages/usage.c src/errors/warning_messages_error.c src/processing/lexer.c src/errors/lexing_errors.c
+SRC = main.c src/fileio/file_reading.c src/errors/fileio_errors.c src/warning_messages/usage.c src/errors/warning_messages_error.c src/processing/lexer.c src/errors/lexing_errors.c src/errors/parsing_errors.c src/processing/parser.c
 OBJ = $(SRC:.c=.o)
 TARGET = combo
 

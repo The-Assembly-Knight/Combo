@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include "../enums/registers.h"
+#include "../enums/actions.h"
 
 struct combo_cmd {
 	enum reg src_reg;
@@ -13,4 +14,6 @@ struct combo_cmd {
 
 	bool src_macces;
 	bool dst_macces;
+
+	enum action act;
 };

@@ -1,6 +1,7 @@
-#include "../../include/errors/lexing_errors.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "../../include/errors/lexing_errors.h"
 
 void error_op_before_first_reg(void)
 {

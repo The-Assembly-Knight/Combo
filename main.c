@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
 
 	const bool combo_found = get_next_combo(input_buffer);
 	
-	int ret_code = combo_found;
-	
-	return ret_code;
+	if (!combo_found)
+		return 1;
 }

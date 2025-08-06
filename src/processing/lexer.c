@@ -142,9 +142,5 @@ bool get_next_combo(const char *buffer)
 
 	find_combo_end(buffer, &combo);
 
-	printf("Amount of registers: %u\n", combo.reg_amount);
-	printf("First register is: %u\n", combo.regs[0]);
-	printf("First register operators length: %u\n", combo.regs_op_len[0]);
-
 	return true;
 }
