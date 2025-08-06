@@ -33,7 +33,7 @@ static enum action assign_action(struct combo *c)
 	switch (r_amount) {
 	case 1: return CLEAR;
 	case 2: return COPY;
-	case 3: return identify_reg_act(regs[r_amount - 1]);
+	case 3: return identify_reg_act(regs[r_amount - 2]);
 	default: return PRINT;
 	}
 }
