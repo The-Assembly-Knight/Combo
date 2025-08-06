@@ -42,13 +42,13 @@ static void assign_reg(const enum reg reg_type, struct combo *combo)
 
 static void assign_op(struct combo *combo)
 {
-	const size_t  r_amount = combo->reg_amount;
+	const size_t r_amount = combo->reg_amount;
 
 	if (r_amount == 0)
 		error_op_before_first_reg();
 
 	if (r_amount < OPERATORS_AMOUNT)
-		combo->regs_op_start_off[r_amount - 1] = start_off; 
+		combo->regs_op_len[r_amount - 1]++;
 }
 
 static bool is_byte_register(const char byte)
@@ -121,10 +121,10 @@ bool get_next_combo(const char *buffer)
 		.regs[1] = NONE,
 		.regs[2] = NONE,
 		.regs[3] = NONE,
-		.regs_op_start_off[0] = 0,
-		.regs_op_start_off[1] = 0,
-		.regs_op_start_off[2] = 0,
-		.regs_op_start_off[3] = 0,
+		.regs_op_len[0] = 0,
+		.regs_op_len[1] = 0,
+		.regs_op_len[2] = 0,
+		.regs_op_len[3] = 0,
 	};
 
 	const char byte = buffer[start_off];
@@ -142,8 +142,7 @@ bool get_next_combo(const char *buffer)
 
 	printf("Amount of registers: %u\n", combo.reg_amount);
 	printf("First register is: %u\n", combo.regs[0]);
-	printf("First operator starts at: %u\n", combo.regs_op_start_off[0]);
-
+	printf("First register operators length: %u\n", combo.regs_op_len[0]);
 
 	return true;
 }
