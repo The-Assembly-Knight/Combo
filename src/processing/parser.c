@@ -63,7 +63,7 @@ static bool is_valid_arithmetic_op(const char *op, const unsigned int len)
 	const unsigned int arithmetic_op_len = 8;
 
 	printf("The src ops len is: %u\n", len);
-	printf("The first op is %c", op[0]);
+	printf("The first op is %c\n", op[0]);
 	
 
 	if (len != arithmetic_op_len)
@@ -111,7 +111,7 @@ static unsigned int calculate_arithmetic_op_value(char *start_off)
 static void assign_macess_and_offset(struct combo *c, struct combo_cmd *c_cmd, char *buffer)
 {
 	const unsigned int src_op_len = c->regs_op_len[0];
-	char *src_start_off = buffer + c->regs_op_start_off[0];
+	char *src_start_off = buffer + c->regs_op_start_off[0] + 1; 
 
 	if (is_valid_memory_op(*src_start_off, src_op_len))
 		c_cmd->src_macces = true;

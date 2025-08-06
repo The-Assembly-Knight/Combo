@@ -101,7 +101,7 @@ static bool find_combo_end(const char *buffer, struct combo *combo)
 	char byte = buffer[start_off];
 
 	do {
-		if (is_byte_register(byte) == 1) {
+			if (is_byte_register(byte) == 1) {
 			enum reg reg_type = identify_reg(byte);
 			assign_reg(reg_type, combo);
 		} else assign_op(combo);
