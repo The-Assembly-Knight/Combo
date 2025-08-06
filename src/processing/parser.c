@@ -38,7 +38,7 @@ static enum action assign_action(struct combo *c)
 	}
 }
 
-/*
+
 static void are_invalid_op(struct combo *c)
 {
 	const unsigned int r_amount = c->reg_amount;
@@ -46,16 +46,16 @@ static void are_invalid_op(struct combo *c)
 
 	switch (r_amount) {
 	case 3:
-		if (op_lens[r_amount - 1] != 0)
+		if (op_lens[r_amount - 2] != 0)
 			error_invalid_op_len();
 		break;
 	case 4:
-		if (op_lens[r_amount - 1] != 0 || op_lens[r_amount - 2] != 0)
+		if (op_lens[r_amount - 2] != 0 || op_lens[r_amount - 3] != 0)
 			error_invalid_op_len();
 		break;
 	}
 }
-
+/*
 static void assign_macess_and_offset(struct combo *c, struct combo_cmd *c_cmd)
 {
 	const size_t r_amount = c->reg_amount;
@@ -67,6 +67,7 @@ static void assign_macess_and_offset(struct combo *c, struct combo_cmd *c_cmd)
 
 void analyze_combo(struct combo *c, struct combo_cmd *c_cmd)
 {
+	are_invalid_op(c);
 	assign_src_and_dst_reg(c, c_cmd);
 	c_cmd->act = assign_action(c);
 }
