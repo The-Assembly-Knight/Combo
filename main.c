@@ -61,9 +61,13 @@ int main(int argc, char *argv[])
 	printf("First operator length is: %u\n", combo.regs_op_len[0]);
 
 	printf("The src reg is: %u\n", combo_cmd.src_reg);
+	
 	printf("The dst reg is: %u\n", combo_cmd.dst_reg);
 	printf("The action is: %u\n", combo_cmd.act);
 	
 	printf("The src reg offset is: %u\n", combo_cmd.src_offset);
 	printf("The src macces is: %u\n", combo_cmd.src_macces);
+
+	printf("The dst reg offset is: %u\n", combo_cmd.dst_offset);
+	printf("The dst macces is: %u\n", combo_cmd.dst_macces);
 }

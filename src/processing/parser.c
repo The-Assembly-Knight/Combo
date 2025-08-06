@@ -93,6 +93,7 @@ static bool is_valid_memory_op(const char op, const unsigned int len)
 
 static unsigned int calculate_arithmetic_op_value(char *start_off)
 {
+	printf("REACHED");
 	unsigned int total = 0;
 
 	const unsigned int ARITHMETIC_OP_VALUE = 8;
@@ -108,20 +109,32 @@ static unsigned int calculate_arithmetic_op_value(char *start_off)
 	return total;
 }
 
-static void assign_macess_and_offset(struct combo *c, struct combo_cmd *c_cmd, char *buffer)
+static void assign_macess_and_offset(const unsigned int OP_LEN, char *start_off, bool *macces, unsigned int *offset)
 {
-	const unsigned int src_op_len = c->regs_op_len[0];
-	char *src_start_off = buffer + c->regs_op_start_off[0] + 1; 
-
-	if (is_valid_memory_op(*src_start_off, src_op_len))
-		c_cmd->src_macces = true;
-	else if (is_valid_arithmetic_op(src_start_off, src_op_len)) {
-		c_cmd->src_offset = calculate_arithmetic_op_value(src_start_off);
+	if (is_valid_memory_op(*start_off, OP_LEN))
+		*macces = true;
+	else if (is_valid_arithmetic_op(start_off, OP_LEN)) {
+		*offset = calculate_arithmetic_op_value(start_off);
 	} else
 		error_invalid_op();
+}
 
-	/* TODO: MAKE REG ABLE TO HAVE 0 OPs*/
+static void check_reg_ops(struct combo *c, struct combo_cmd *c_cmd, char *buffer)
+{
+	const unsigned int R_AMOUNT = c->reg_amount;
 
+	const unsigned int SRC_OP_LEN = c->regs_op_len[0];
+	const unsigned int DST_OP_LEN = c->regs_op_len[R_AMOUNT - 1];
+
+	if (SRC_OP_LEN > 0) {
+		char *src_start_off = buffer + c->regs_op_start_off[0] + 1;
+		assign_macess_and_offset(SRC_OP_LEN, src_start_off, &c_cmd->src_macces, &c_cmd->src_offset);
+	}
+
+	if (DST_OP_LEN > 0) {
+		char *dst_start_off = buffer + c->regs_op_start_off[R_AMOUNT - 1] + 2;
+		assign_macess_and_offset(DST_OP_LEN, dst_start_off, &c_cmd->dst_macces, &c_cmd->dst_offset);
+	}
 }
 
 void analyze_combo(struct combo *c, struct combo_cmd *c_cmd, char *buffer)
@@ -129,5 +142,6 @@ void analyze_combo(struct combo *c, struct combo_cmd *c_cmd, char *buffer)
 	are_invalid_op(c);
 	assign_src_and_dst_reg(c, c_cmd);
 	c_cmd->act = assign_action(c);
-	assign_macess_and_offset(c, c_cmd, buffer);
+
+	check_reg_ops(c, c_cmd, buffer);
 }
