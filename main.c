@@ -33,6 +33,10 @@ int main(int argc, char *argv[])
 		.regs_op_len[1] = 0,
 		.regs_op_len[2] = 0,
 		.regs_op_len[3] = 0,
+		.regs_op_start_off[0] = 0,
+		.regs_op_start_off[1] = 0,
+		.regs_op_start_off[2] = 0,
+		.regs_op_start_off[3] = 0,
 	};
 
 	const bool combo_found = get_next_combo(input_buffer, &combo);
@@ -50,7 +54,7 @@ int main(int argc, char *argv[])
 		.act = CLEAR
 	};
 
-	analyze_combo(&combo, &combo_cmd);
+	analyze_combo(&combo, &combo_cmd, input_buffer);
 
 	printf("Amount of registers: %u\n", combo.reg_amount);
 	printf("First register is: %u\n", combo.regs[0]);
@@ -59,6 +63,7 @@ int main(int argc, char *argv[])
 	printf("The src reg is: %u\n", combo_cmd.src_reg);
 	printf("The dst reg is: %u\n", combo_cmd.dst_reg);
 	printf("The action is: %u\n", combo_cmd.act);
-
-
+	
+	printf("The src reg offset is: %u\n", combo_cmd.src_offset);
+	printf("The src macces is: %u\n", combo_cmd.src_macces);
 }

@@ -51,6 +51,9 @@ static void assign_op(struct combo *combo)
 		combo->regs_op_len[r_amount - 1]++;
 	else
 		error_op_after_fourth_reg();
+
+	if (combo->regs_op_start_off[r_amount - 1] == 0)
+		combo->regs_op_start_off[r_amount] = start_off;
 }
 
 static bool is_byte_register(const char byte)
