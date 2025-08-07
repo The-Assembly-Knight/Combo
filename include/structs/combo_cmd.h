@@ -4,6 +4,7 @@
 
 #include "../enums/registers.h"
 #include "../enums/actions.h"
+#include "../enums/mem_access.h"
 
 struct combo_cmd {
 	enum reg src_reg;
@@ -12,8 +13,8 @@ struct combo_cmd {
 	unsigned int src_offset;
 	unsigned int dst_offset;
 
-	bool src_mem_access;
-	bool dst_mem_access;
+	enum mem_access src_mem_access;
+	enum mem_access dst_mem_access;
 
 	enum action act;
 };

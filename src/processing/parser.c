@@ -63,17 +63,21 @@ static void validate_intermediate_register_ops(const struct combo *c)
 	}
 }
 
-static bool is_valid_memory_op(const char op, const unsigned int len, bool *mem_access)
+static bool is_valid_memory_op(const char op, const unsigned int len, enum mem_access *mem_access)
 {
-	*mem_access = false;
-
 	if (len != MEM_OP_LEN)
 		return false;
+	
+	switch (op) {
+	case '<': 
+		*mem_access = ADDRESS;
+		break;
+	case '>': 
+		*mem_access = DEREFERENCE;
+		break;
+	default: return false;
+	}
 
-	if (op != '<' && op != '>')
-		return false;
-
-	*mem_access = true;
 	return true;
 }
 
@@ -94,7 +98,7 @@ static bool parse_arithmetic_op(const char *op, const unsigned int len, unsigned
 	return true;
 }
 
-static void assign_mem_access_and_offset(const unsigned int op_len, const char *start_off, bool *mem_access, unsigned int *offset)
+static void assign_mem_access_and_offset(const unsigned int op_len, const char *start_off, enum mem_access *mem_access, unsigned int *offset)
 {
 	if (is_valid_memory_op(*start_off, op_len, mem_access))
 		return;

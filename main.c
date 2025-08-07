@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
 		.dst_reg = NONE,
 		.src_offset = 0,
 		.dst_offset = 0,
-		.src_macces = false,
-		.dst_macces = false,
+		.src_mem_access = FALSE,
+		.dst_mem_access = FALSE,
 		.act = CLEAR
 	};
 
@@ -68,10 +68,10 @@ int main(int argc, char *argv[])
 	printf("The action is: %u\n", combo_cmd.act);
 	
 	printf("The src reg offset is: %u\n", combo_cmd.src_offset);
-	printf("The src macces is: %u\n", combo_cmd.src_macces);
+	printf("The src macces is: %u\n", combo_cmd.src_mem_access);
 
 	printf("The dst reg offset is: %u\n", combo_cmd.dst_offset);
-	printf("The dst macces is: %u\n", combo_cmd.dst_macces);
+	printf("The dst macces is: %u\n", combo_cmd.dst_mem_access);
 
 
 }
