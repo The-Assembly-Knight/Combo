@@ -36,12 +36,13 @@ As its name suggests Combo is based on combos (this can be interpreted as action
 
 ### Registers Combos
 
-| Index  | Example     | Action   |
-| :----- | :---------: | -------: |
-| 1		 | 	AB	       | Copying  |
-| 2		 |	AXB	       | Moving   |
-| 3		 |	AYB	       | Swaping  |
-
+| Index  | Example     | Action      |
+| :----- | :---------: | -------:    |
+| 1		 | 	AB	       | Copying     |
+| 2		 |	AXB	       | Moving      |
+| 3		 |	AYB	       | Swaping     |
+| 4      |  AAB        | Adding      |
+| 5      |  ABB        | Subtracting |
 
 
 
@@ -80,3 +81,24 @@ Swaping registers is as simple as to copying but using a Y between the source re
     XYY     this combo will swap the contents of register X and Y, which means X will have the value of Y and Y will have the value of X.
     YYX     this combo will swap the contents of register Y and X, which means Y will have the value of X and X will have the value of Y.
 
+4. **Adding**:
+
+Adding registers is simple, using register A between the source and destination register will grant the addition of the source register to the destination register, increasing the destination register value (as long as source register is > 0).
+
+**Example**:
+
+    AAB     this combo will add the contents of register A to register B, which means B will be equal to B+A. In addition, source register (A) will maintain its value.
+    BAA     this combo will add the contents of register B to register A, which means A will be equal to A+B. In addition, source register (B) will maintain its value.
+    XAY     this combo will add the contents of register X to register Y, which means X will be equal to X+Y. In addition, source register (X) will maintain its value.
+    YAX     this combo will add the contents of register Y to register X, which means Y will be equal to Y+X. In addition, source register (Y) will maintain its value.
+
+5. **Subtract**:
+
+Subtract registers is simple, using register B between the source and destination register will grant the subtraction of the source register to the destination register, decreasing the destination register value (as long as source register is > 0).
+
+**Example**:
+
+    ABB     this combo will subtract the contents of register A to register B, which means B will be equal to B-A. In addition, source register (A) will maintain its value.
+    BAA     this combo will subtract the contents of register B to register A, which means A will be equal to A-B. In addition, source register (B) will maintain its value.
+    XAY     this combo will subtract the contents of register X to register Y, which means X will be equal to X-Y. In addition, source register (X) will maintain its value.
+    YAX     this combo will subtract the contents of register Y to register X, which means Y will be equal to Y-X. In addition, source register (Y) will maintain its value.
