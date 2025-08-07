@@ -5,6 +5,12 @@
 #include "../../include/processing/parser.h"
 #include "../../include/errors/parsing_errors.h"
 
+#define ARITH_OP_LEN	8
+#define MEM_OP_LEN	1
+static const unsigned int ARITH_WEIGHTS[ARITH_OP_LEN] = {
+	128, 64, 32, 16, 8, 4, 2, 1
+};
+
 static void assign_src_and_dst_reg(struct combo *c, struct combo_cmd *c_cmd)
 {
 	const enum reg *regs = c->regs;
@@ -25,7 +31,7 @@ static enum action identify_reg_act(enum reg reg)
 	}
 }
 
-static enum action assign_action(struct combo *c)
+static enum action determine_action_based_on_combo(struct combo *c)
 {
 	const enum reg *regs = c->regs;
 	const size_t r_amount = c->reg_amount; 
@@ -40,7 +46,7 @@ static enum action assign_action(struct combo *c)
 }
 
 
-static void are_invalid_op(struct combo *c)
+static void validate_intermediate_register_ops(const struct combo *c)
 {
 	const unsigned int r_amount = c->reg_amount;
 	const unsigned int *op_lens = c->regs_op_len;
@@ -57,85 +63,70 @@ static void are_invalid_op(struct combo *c)
 	}
 }
 
-static bool is_valid_arithmetic_op(const char *op, const unsigned int len)
+static bool is_valid_memory_op(const char op, const unsigned int len, bool *mem_access)
 {
-	const unsigned int arithmetic_op_len = 8;
+	*mem_access = false;
 
-	if (len != arithmetic_op_len)
-		return false;
-
-	size_t i = 0;
-	for (i = 0; i < arithmetic_op_len; i++) {
-		if (op[i] != '^' && op[i] != 'v')
-			return false;
-	}
-	
-	return true;
-}
-
-static bool is_valid_memory_op(const char op, const unsigned int len)
-{
-	const unsigned int memory_op_len = 1;
-
-	if (len != memory_op_len)
+	if (len != MEM_OP_LEN)
 		return false;
 
 	if (op != '<' && op != '>')
 		return false;
 
+	*mem_access = true;
 	return true;
 }
 
-static unsigned int calculate_arithmetic_op_value(char *start_off)
+static bool parse_arithmetic_op(const char *op, const unsigned int len, unsigned int *offset)
 {
+	if (len != ARITH_OP_LEN) return false;
+
 	unsigned int total = 0;
 
-	const unsigned int ARITHMETIC_OP_VALUE = 8;
-	const unsigned int VALUES[8] = 
-		{128, 64, 32, 16, 8, 4, 2, 1};
+	unsigned int i = 0;
+	for (i = 0; i < ARITH_OP_LEN; i++) {
+		const char c = op[i];
 
-	size_t i = 0;
-	for (i = 0; i < ARITHMETIC_OP_VALUE; i++) {
-		if (start_off[i] == '^')
-			total += VALUES[i];
+		if (c != '^' && c != 'v') return false;
+		if (c == '^') total += ARITH_WEIGHTS[i];
 	}
-
-	return total;
+	*offset = total;
+	return true;
 }
 
-static void assign_macess_and_offset(const unsigned int OP_LEN, char *start_off, bool *macces, unsigned int *offset)
+static void assign_mem_access_and_offset(const unsigned int op_len, const char *start_off, bool *mem_access, unsigned int *offset)
 {
-	if (is_valid_memory_op(*start_off, OP_LEN))
-		*macces = true;
-	else if (is_valid_arithmetic_op(start_off, OP_LEN)) {
-		*offset = calculate_arithmetic_op_value(start_off);
-	} else
+	if (is_valid_memory_op(*start_off, op_len, mem_access))
+		return;
+	else if (parse_arithmetic_op(start_off, op_len, offset))
+		return;
+	else
 		error_invalid_op();
 }
 
-static void check_reg_ops(struct combo *c, struct combo_cmd *c_cmd, char *buffer)
+static void check_reg_ops(const struct combo *c, struct combo_cmd *c_cmd, char *buffer)
 {
-	const unsigned int R_AMOUNT = c->reg_amount;
+	const unsigned int r_amount = c->reg_amount;
 
 	const unsigned int SRC_OP_LEN = c->regs_op_len[0];
-	const unsigned int DST_OP_LEN = c->regs_op_len[R_AMOUNT - 1];
+	const unsigned int DST_OP_LEN = c->regs_op_len[r_amount - 1];
 
 	if (SRC_OP_LEN > 0) {
 		char *src_start_off = buffer + c->regs_op_start_off[0] + 1;
-		assign_macess_and_offset(SRC_OP_LEN, src_start_off, &c_cmd->src_macces, &c_cmd->src_offset);
+		assign_mem_access_and_offset(SRC_OP_LEN, src_start_off, &c_cmd->src_mem_access, &c_cmd->src_offset);
 	}
 
 	if (DST_OP_LEN > 0) {
-		char *dst_start_off = buffer + c->regs_op_start_off[R_AMOUNT - 1] + 2;
-		assign_macess_and_offset(DST_OP_LEN, dst_start_off, &c_cmd->dst_macces, &c_cmd->dst_offset);
+		char *dst_start_off = buffer + c->regs_op_start_off[r_amount - 1] + 2;
+		assign_mem_access_and_offset(DST_OP_LEN, dst_start_off, &c_cmd->dst_mem_access, &c_cmd->dst_offset);
 	}
 }
 
 void analyze_combo(struct combo *c, struct combo_cmd *c_cmd, char *buffer)
 {
-	are_invalid_op(c);
+	validate_intermediate_register_ops(c);
 	assign_src_and_dst_reg(c, c_cmd);
-	c_cmd->act = assign_action(c);
+	c_cmd->act = determine_action_based_on_combo(c);
 
 	check_reg_ops(c, c_cmd, buffer);
 }

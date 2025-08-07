@@ -12,8 +12,8 @@ struct combo_cmd {
 	unsigned int src_offset;
 	unsigned int dst_offset;
 
-	bool src_macces;
-	bool dst_macces;
+	bool src_mem_access;
+	bool dst_mem_access;
 
 	enum action act;
 };

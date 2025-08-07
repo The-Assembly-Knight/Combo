@@ -55,4 +55,23 @@ int main(int argc, char *argv[])
 	};
 
 	analyze_combo(&combo, &combo_cmd, input_buffer);
+
+
+	
+	printf("Amount of registers: %u\n", combo.reg_amount);
+	printf("First register is: %u\n", combo.regs[0]);
+	printf("First operator length is: %u\n", combo.regs_op_len[0]);
+
+	printf("The src reg is: %u\n", combo_cmd.src_reg);
+	
+	printf("The dst reg is: %u\n", combo_cmd.dst_reg);
+	printf("The action is: %u\n", combo_cmd.act);
+	
+	printf("The src reg offset is: %u\n", combo_cmd.src_offset);
+	printf("The src macces is: %u\n", combo_cmd.src_macces);
+
+	printf("The dst reg offset is: %u\n", combo_cmd.dst_offset);
+	printf("The dst macces is: %u\n", combo_cmd.dst_macces);
+
+
 }
