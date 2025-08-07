@@ -7,7 +7,7 @@
 
 #define ARITH_OP_LEN	8
 #define MEM_OP_LEN	1
-static const unsigned int ARITH_WEIGHTS[ARITH_OP_LEN] = {
+static const int ARITH_WEIGHTS[ARITH_OP_LEN] = {
 	128, 64, 32, 16, 8, 4, 2, 1
 };
 
@@ -81,13 +81,13 @@ static bool is_valid_memory_op(const char op, const unsigned int len, enum mem_a
 	return true;
 }
 
-static bool parse_arithmetic_op(const char *op, const unsigned int len, unsigned int *offset)
+static bool parse_arithmetic_op(const char *op, const unsigned int len, int *offset)
 {
 	if (len != ARITH_OP_LEN) return false;
 
-	unsigned int total = 0;
+	int total = 0;
 
-	unsigned int i = 0;
+	size_t i = 0;
 	for (i = 0; i < ARITH_OP_LEN; i++) {
 		const char c = op[i];
 
@@ -98,7 +98,7 @@ static bool parse_arithmetic_op(const char *op, const unsigned int len, unsigned
 	return true;
 }
 
-static void assign_mem_access_and_offset(const unsigned int op_len, const char *start_off, enum mem_access *mem_access, unsigned int *offset)
+static void assign_mem_access_and_offset(const unsigned int op_len, const char *start_off, enum mem_access *mem_access, int *offset)
 {
 	if (is_valid_memory_op(*start_off, op_len, mem_access))
 		return;
@@ -120,7 +120,7 @@ static void check_reg_ops(const struct combo *c, struct combo_cmd *c_cmd, char *
 		assign_mem_access_and_offset(SRC_OP_LEN, src_start_off, &c_cmd->src_mem_access, &c_cmd->src_offset);
 	}
 
-	if (DST_OP_LEN > 0) {
+	if (DST_OP_LEN > 0 && r_amount != 1) {
 		char *dst_start_off = buffer + c->regs_op_start_off[r_amount - 1] + 2;
 		assign_mem_access_and_offset(DST_OP_LEN, dst_start_off, &c_cmd->dst_mem_access, &c_cmd->dst_offset);
 	}

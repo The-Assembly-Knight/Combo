@@ -20,3 +20,9 @@ void error_no_supported_action(void)
 	perror("ERROR: action not supported yet");
 	exit(EXIT_FAILURE);
 }
+
+void error_offset_is_negative(void)
+{
+	perror("ERROR: an offset is negative");
+	exit(EXIT_FAILURE);
+}

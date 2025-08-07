@@ -10,8 +10,8 @@ struct combo_cmd {
 	enum reg src_reg;
 	enum reg dst_reg;
 
-	unsigned int src_offset;
-	unsigned int dst_offset;
+	int src_offset;
+	int dst_offset;
 
 	enum mem_access src_mem_access;
 	enum mem_access dst_mem_access;

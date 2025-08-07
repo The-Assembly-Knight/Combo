@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "../../include/processing/executer.h"
 #include "../../include/errors/executing_errors.h"
@@ -13,7 +14,7 @@ static int *dst_reg = &reg_a;
 
 static int* assign_reg(enum reg reg)
 {
-	int* ret_reg;
+	int* ret_reg = &reg_a;
 	switch (reg) {
 	case A:
 		ret_reg = &reg_a;
@@ -33,7 +34,7 @@ static int* assign_reg(enum reg reg)
 	return ret_reg;
 }
 
-static bool assign_offsets(const unsigned int src_offset, const unsigned int dst_offset)
+static bool assign_offsets(const int src_offset, const int dst_offset)
 {
 	if (src_reg == NULL || dst_reg == NULL)
 		return false;
@@ -44,7 +45,7 @@ static bool assign_offsets(const unsigned int src_offset, const unsigned int dst
 	return true;
 }
 
-static void exec_clear_act(const unsigned int src_offset)
+static void exec_clear_act(const int src_offset)
 {
 	if (src_offset != 0)
 		return;
@@ -72,5 +73,9 @@ void execute_c_cmd(struct combo_cmd c_cmd)
 		error_assigning_offsets();
 	
 	exec_act(c_cmd);
-}
 
+
+	printf("This is the value of the register A: %i\n", reg_a);
+
+
+}

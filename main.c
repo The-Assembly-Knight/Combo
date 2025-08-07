@@ -9,6 +9,7 @@
 #include "include/warning_messages/usage.h"
 #include "include/processing/lexer.h"
 #include "include/processing/parser.h"
+#include "include/processing/executer.h"
 
 
 int main(int argc, char *argv[])
@@ -55,9 +56,8 @@ int main(int argc, char *argv[])
 	};
 
 	analyze_combo(&combo, &combo_cmd, input_buffer);
+	execute_c_cmd(combo_cmd);
 
-
-	
 	printf("Amount of registers: %u\n", combo.reg_amount);
 	printf("First register is: %u\n", combo.regs[0]);
 	printf("First operator length is: %u\n", combo.regs_op_len[0]);
@@ -67,11 +67,9 @@ int main(int argc, char *argv[])
 	printf("The dst reg is: %u\n", combo_cmd.dst_reg);
 	printf("The action is: %u\n", combo_cmd.act);
 	
-	printf("The src reg offset is: %u\n", combo_cmd.src_offset);
-	printf("The src macces is: %u\n", combo_cmd.src_mem_access);
+	printf("The src reg offset is: %i\n", combo_cmd.src_offset);
+	printf("The src macces is: %i\n", combo_cmd.src_mem_access);
 
-	printf("The dst reg offset is: %u\n", combo_cmd.dst_offset);
-	printf("The dst macces is: %u\n", combo_cmd.dst_mem_access);
-
-
+	printf("The dst reg offset is: %i\n", combo_cmd.dst_offset);
+	printf("The dst macces is: %i\n", combo_cmd.dst_mem_access);
 }
