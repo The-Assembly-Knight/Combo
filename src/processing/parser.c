@@ -1,6 +1,5 @@
 #include <stdbool.h>
 #include <stddef.h>
-#include <stdio.h>
 #include <sys/types.h>
 
 #include "../../include/processing/parser.h"
@@ -62,10 +61,6 @@ static bool is_valid_arithmetic_op(const char *op, const unsigned int len)
 {
 	const unsigned int arithmetic_op_len = 8;
 
-	printf("The src ops len is: %u\n", len);
-	printf("The first op is %c\n", op[0]);
-	
-
 	if (len != arithmetic_op_len)
 		return false;
 
@@ -93,7 +88,6 @@ static bool is_valid_memory_op(const char op, const unsigned int len)
 
 static unsigned int calculate_arithmetic_op_value(char *start_off)
 {
-	printf("REACHED");
 	unsigned int total = 0;
 
 	const unsigned int ARITHMETIC_OP_VALUE = 8;
