@@ -72,6 +72,22 @@ static void exec_swap_act(void)
 	*dst_reg = tmp;
 }
 
+static void exec_add_act(void)
+{
+	if (*src_reg == 0)
+		return;
+
+	*dst_reg += *src_reg;
+}
+
+static void exec_subtract_act(void)
+{
+	if (*src_reg == 0)
+		return;
+
+	*dst_reg -= *src_reg;
+}
+
 static void exec_act(const struct combo_cmd c_cmd)
 {
 	switch (c_cmd.act) {
@@ -83,6 +99,12 @@ static void exec_act(const struct combo_cmd c_cmd)
 		break;
 	case SWAP:
 		exec_swap_act();
+		break;
+	case ADD:
+		exec_add_act();
+		break;
+	case SUBTRACT:
+		exec_subtract_act();
 		break;
 	default:
 		error_no_supported_action();
