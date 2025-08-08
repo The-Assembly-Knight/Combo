@@ -12,5 +12,5 @@ struct combo {
 	unsigned int regs_op_len[REGISTERS_AMOUNT];
 	unsigned int regs_op_start_off[REGISTERS_AMOUNT];
 
-	loop_t loop;
+	enum loop_t loop;
 };

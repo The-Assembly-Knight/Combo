@@ -96,12 +96,35 @@ static bool find_combo_beg(const char *buffer)
 	return true;
 }
 
+static bool is_combo_loop(const char *buffer, struct combo *c)
+{
+	const char byte = buffer[start_off];
+	const unsigned int r_amount = c->reg_amount;
+
+	if (r_amount == 0) {
+		if (byte == '>' || byte == '<') {
+			c->len++;
+			start_off++;
+		} else
+			return false;
+
+		if (byte == '<')
+			c->loop = BEGINNING;
+
+		if (byte == '>')
+			c->loop = ENDING;
+
+		return true;
+	}
+	return false;
+}
+
 static bool find_combo_end(const char *buffer, struct combo *combo)
 {
 	char byte = buffer[start_off];
 
 	do {
-			if (is_byte_register(byte) == 1) {
+			if (is_byte_register(byte) == true) {
 			enum reg reg_type = identify_reg(byte);
 			assign_reg(reg_type, combo);
 		} else assign_op(combo);
@@ -126,6 +149,9 @@ bool get_next_combo(const char *buffer, struct combo *c)
 
 	if (!combo_beg_found)
 		return false; 
+		
+	if (is_combo_loop(buffer, c))
+		return true;
 
 	find_combo_end(buffer, c);
 

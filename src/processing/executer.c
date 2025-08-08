@@ -135,6 +135,13 @@ static void exec_act(const struct combo_cmd c_cmd)
 
 void execute_c_cmd(struct combo_cmd c_cmd)
 {
+	if (c_cmd.act == LOOP_START || c_cmd.act == LOOP_END) {
+		exec_act(c_cmd);
+		return;
+	}
+
+
+
 	src_reg = assign_reg(c_cmd.src_reg);
 	dst_reg = assign_reg(c_cmd.dst_reg);
 
@@ -143,10 +150,9 @@ void execute_c_cmd(struct combo_cmd c_cmd)
 	
 	exec_act(c_cmd);
 
-/*
+
 	printf("This is the value of the register A: %i\n", reg_a);
 	printf("This is the value of the register B: %i\n", reg_b);
 	printf("This is the value of the register X: %i\n", reg_x);
 	printf("This is the value of the register Y: %i\n", reg_y);
-*/
 }

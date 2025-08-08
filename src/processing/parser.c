@@ -11,6 +11,7 @@
 static const int ARITH_WEIGHTS[ARITH_OP_LEN] = {
 	128, 64, 32, 16, 8, 4, 2, 1
 };
+static unsigned int amount_loop_ending_waiting = 0;
 
 static void assign_src_and_dst_reg(struct combo *c, struct combo_cmd *c_cmd)
 {
@@ -44,6 +45,26 @@ static enum action determine_action_based_on_combo(struct combo *c)
 	case 3: return identify_reg_act(regs[r_amount - 2]);
 	default: return PRINT;
 	}
+}
+
+static bool is_combo_loop(const struct combo *c, struct combo_cmd *c_cmd)
+{
+	if (c->loop == BEGINNING) {
+		amount_loop_ending_waiting++;
+		c_cmd->act = LOOP_START;
+		return true;
+	}
+
+	if (c->loop == ENDING) {
+		if (amount_loop_ending_waiting > 0) {
+			amount_loop_ending_waiting--;
+			c_cmd->act = LOOP_END;
+			return true;
+		} else
+			error_loop_end_was_not_expected();
+	}
+
+	return false;
 }
 
 
@@ -129,6 +150,9 @@ static void check_reg_ops(const struct combo *c, struct combo_cmd *c_cmd, char *
 
 void analyze_combo(struct combo *c, struct combo_cmd *c_cmd, char *buffer)
 {
+	if (is_combo_loop(c, c_cmd))
+		return;
+
 	validate_intermediate_register_ops(c);
 	assign_src_and_dst_reg(c, c_cmd);
 	c_cmd->act = determine_action_based_on_combo(c);

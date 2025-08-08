@@ -14,3 +14,9 @@ void error_invalid_op(void)
 	perror("ERROR: A combo contains an invalid combination of operators");
 	exit(EXIT_FAILURE);
 }
+
+void error_loop_end_was_not_expected(void)
+{
+	perror("ERROR: An unexpected end of a loop was found, please make sure the beginning of the loop was declared");
+	exit(EXIT_FAILURE);
+}
