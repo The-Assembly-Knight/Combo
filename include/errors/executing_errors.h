@@ -5,3 +5,4 @@ void error_assigning_offsets(void);
 void error_no_supported_action(void);
 void error_offset_is_negative(void);
 void error_moving_register_to_itself(void);
+void error_printing_a_non_ASCII_value(void);

@@ -88,6 +88,22 @@ static void exec_subtract_act(void)
 	*dst_reg -= *src_reg;
 }
 
+static void exec_print_act(void)
+{
+	if (reg_y > 255)
+		error_printing_a_non_ASCII_value();
+
+	printf("Here is the output: %c", reg_y);
+}
+
+static void exec_copy_act(void)
+{
+	if (*src_reg == *dst_reg)
+		return;
+
+	*dst_reg = *src_reg;
+}
+
 static void exec_act(const struct combo_cmd c_cmd)
 {
 	switch (c_cmd.act) {
@@ -105,6 +121,12 @@ static void exec_act(const struct combo_cmd c_cmd)
 		break;
 	case SUBTRACT:
 		exec_subtract_act();
+		break;
+	case PRINT:
+		exec_print_act();
+		break;
+	case COPY:
+		exec_copy_act();
 		break;
 	default:
 		error_no_supported_action();

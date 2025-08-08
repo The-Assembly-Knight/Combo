@@ -32,3 +32,9 @@ void error_moving_register_to_itself(void)
 	perror("ERROR: a combo moves a register to itself, you can not move a register to itself");
 	exit(EXIT_FAILURE);
 }
+
+void error_printing_a_non_ASCII_value(void)
+{
+	perror("ERROR: trying to print a value greater than 255, not an ASCII character");
+	exit(EXIT_FAILURE);
+}
