@@ -124,4 +124,6 @@ void execute_c_cmd(struct combo_cmd c_cmd)
 
 	printf("This is the value of the register A: %i\n", reg_a);
 	printf("This is the value of the register B: %i\n", reg_b);
+	printf("This is the value of the register X: %i\n", reg_x);
+	printf("This is the value of the register Y: %i\n", reg_y);
 }

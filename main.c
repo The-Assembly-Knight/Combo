@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 	char input_buffer[MAX_AMOUNT_TO_READ + 1] = {0};
 	read_file(argv[1], input_buffer, MAX_AMOUNT_TO_READ);
 
-
+	while(true) {
 	struct combo combo = {
 		.len = 0,
 		.reg_amount = 0,
@@ -72,4 +72,5 @@ int main(int argc, char *argv[])
 
 	printf("The dst reg offset is: %i\n", combo_cmd.dst_offset);
 	printf("The dst macces is: %i\n", combo_cmd.dst_mem_access);
+	}
 }
