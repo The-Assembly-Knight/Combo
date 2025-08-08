@@ -4,8 +4,9 @@
 
 #include "../../include/processing/lexer.h"
 #include "../../include/errors/lexing_errors.h"
+#include "../../include/globals/index_globals.h"
 
-static unsigned int start_off = 0;
+unsigned int start_off = 0;
 
 static const char reg_bytes[REGISTER_AMOUNT] = {
 	'A', 'B', 'X', 'Y'

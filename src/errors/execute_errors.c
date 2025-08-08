@@ -38,3 +38,15 @@ void error_printing_a_non_ASCII_value(void)
 	perror("ERROR: trying to print a value greater than 255, not an ASCII character");
 	exit(EXIT_FAILURE);
 }
+
+void error_surpassed_max_loops_amount(void)
+{
+	perror("ERROR: There is a quartic or even higher loop, loops can only reach a cubic complexity");
+	exit(EXIT_FAILURE);
+}
+
+void error_subceeded_min_amount_of_loops(void)
+{
+	perror("ERROR: The end of a loop was identified, but its beginning was not");
+	exit(EXIT_FAILURE);
+}

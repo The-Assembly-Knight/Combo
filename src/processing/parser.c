@@ -56,12 +56,8 @@ static bool is_combo_loop(const struct combo *c, struct combo_cmd *c_cmd)
 	}
 
 	if (c->loop == ENDING) {
-		if (amount_loop_ending_waiting > 0) {
-			amount_loop_ending_waiting--;
-			c_cmd->act = LOOP_END;
-			return true;
-		} else
-			error_loop_end_was_not_expected();
+		c_cmd->act = LOOP_END;
+		return true;
 	}
 
 	return false;

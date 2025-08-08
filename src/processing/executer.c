@@ -1,8 +1,8 @@
-#include <stdlib.h>
 #include <stdio.h>
 
 #include "../../include/processing/executer.h"
 #include "../../include/errors/executing_errors.h"
+#include "../../include/globals/index_globals.h"
 
 static int reg_a = 0;
 static int reg_b = 0;
@@ -11,6 +11,11 @@ static int reg_y = 0;
 
 static int *src_reg = &reg_a;
 static int *dst_reg = &reg_a;
+
+#define MAX_LOOP_AMOUNT 1
+
+static unsigned int loop_starts[MAX_LOOP_AMOUNT] = {0};
+static unsigned int loops_amount = 0;
 
 static int* assign_reg(enum reg reg)
 {
@@ -104,6 +109,35 @@ static void exec_copy_act(void)
 	*dst_reg = *src_reg;
 }
 
+static void exec_loop_start(void)
+{
+	if (loops_amount == MAX_LOOP_AMOUNT)
+		error_surpassed_max_loops_amount();
+	
+	loop_starts[loops_amount] = start_off;
+	loops_amount++;
+
+	
+	printf("The value in register X is: %i\n", reg_x);
+}
+
+static void exec_loop_end(void)
+{
+	if (loops_amount == 0)
+		error_subceeded_min_amount_of_loops();
+
+	printf("The value in register X is: %i", reg_x);
+
+	if (reg_x <= 0) {
+		loop_starts[loops_amount - 1] = 0;
+		loops_amount--;
+		return;
+	}
+
+	start_off = loop_starts[loops_amount - 1];
+	reg_x--;
+}
+
 static void exec_act(const struct combo_cmd c_cmd)
 {
 	switch (c_cmd.act) {
@@ -128,6 +162,12 @@ static void exec_act(const struct combo_cmd c_cmd)
 	case COPY:
 		exec_copy_act();
 		break;
+	case LOOP_START:
+		exec_loop_start();
+		break;
+	case LOOP_END:
+		exec_loop_end();
+		break;
 	default:
 		error_no_supported_action();
 	}
@@ -139,8 +179,6 @@ void execute_c_cmd(struct combo_cmd c_cmd)
 		exec_act(c_cmd);
 		return;
 	}
-
-
 
 	src_reg = assign_reg(c_cmd.src_reg);
 	dst_reg = assign_reg(c_cmd.dst_reg);
