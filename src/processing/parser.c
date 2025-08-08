@@ -118,13 +118,11 @@ static void check_reg_ops(const struct combo *c, struct combo_cmd *c_cmd, char *
 
 	if (SRC_OP_LEN > 0) {
 		char *src_start_off = buffer + c->regs_op_start_off[0];
-		printf("This is the first char of the dst reg offset: %c\n", src_start_off[0]);
 		assign_mem_access_and_offset(SRC_OP_LEN, src_start_off, &c_cmd->src_mem_access, &c_cmd->src_offset);
 	}
 
 	if (DST_OP_LEN > 0 && r_amount != 1) {
 		char *dst_start_off = buffer + c->regs_op_start_off[r_amount - 1];
-		printf("This is the first char of the dst reg offset: %c\n", dst_start_off[0]);
 		assign_mem_access_and_offset(DST_OP_LEN, dst_start_off, &c_cmd->dst_mem_access, &c_cmd->dst_offset);
 	}
 }

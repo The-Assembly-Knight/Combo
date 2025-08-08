@@ -93,7 +93,7 @@ static void exec_print_act(void)
 	if (reg_y > 255)
 		error_printing_a_non_ASCII_value();
 
-	printf("Here is the output: %c", reg_y);
+	printf("%c", reg_y);
 }
 
 static void exec_copy_act(void)
@@ -143,9 +143,10 @@ void execute_c_cmd(struct combo_cmd c_cmd)
 	
 	exec_act(c_cmd);
 
-
+/*
 	printf("This is the value of the register A: %i\n", reg_a);
 	printf("This is the value of the register B: %i\n", reg_b);
 	printf("This is the value of the register X: %i\n", reg_x);
 	printf("This is the value of the register Y: %i\n", reg_y);
+*/
 }

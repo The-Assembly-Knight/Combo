@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
 	analyze_combo(&combo, &combo_cmd, input_buffer);
 	execute_c_cmd(combo_cmd);
 
+/*
 	printf("Amount of registers: %u\n", combo.reg_amount);
 	printf("First register is: %u\n", combo.regs[0]);
 	printf("First operator length is: %u\n", combo.regs_op_len[0]);
@@ -72,5 +73,6 @@ int main(int argc, char *argv[])
 
 	printf("The dst reg offset is: %i\n", combo_cmd.dst_offset);
 	printf("The dst macces is: %i\n", combo_cmd.dst_mem_access);
+*/
 	}
 }
