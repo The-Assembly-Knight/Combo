@@ -7,6 +7,7 @@
 #include "../../include/globals/index_globals.h"
 
 unsigned int start_off = 0;
+bool inside_loop = false;
 
 static const char reg_bytes[REGISTER_AMOUNT] = {
 	'A', 'B', 'X', 'Y'
@@ -109,8 +110,10 @@ static bool is_combo_loop(const char *buffer, struct combo *c)
 		} else
 			return false;
 
-		if (byte == '<')
+		if (byte == '<') {
+			inside_loop = true;
 			c->loop = BEGINNING;
+		}
 
 		if (byte == '>')
 			c->loop = ENDING;
@@ -138,9 +141,32 @@ static bool find_combo_end(const char *buffer, struct combo *combo)
 	return true;
 }
 
+static bool find_loop_end(const char *buffer)
+{
+	char byte = buffer[start_off];
+
+	while (byte != '>') {
+		if (byte == '\0')
+			return false;
+
+		start_off++;
+		byte = buffer[start_off];
+	}
+
+	return true;
+}
+
 
 bool get_next_combo(const char *buffer, struct combo *c)
 {
+	if (inside_loop) {
+		if (!find_loop_end(buffer)) {
+			error_loop_has_no_end();
+		} else {
+			inside_loop = false;
+		}
+	}
+
 	const char byte = buffer[start_off];
 
 	bool combo_beg_found = true;
