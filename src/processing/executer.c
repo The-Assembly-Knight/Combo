@@ -62,6 +62,16 @@ static void exec_move_act(void)
 	*src_reg = 0;
 }
 
+static void exec_swap_act(void)
+{
+	if (*src_reg == *dst_reg)
+		return;
+
+	int tmp = *src_reg;
+	*src_reg = *dst_reg;
+	*dst_reg = tmp;
+}
+
 static void exec_act(const struct combo_cmd c_cmd)
 {
 	switch (c_cmd.act) {
@@ -70,6 +80,9 @@ static void exec_act(const struct combo_cmd c_cmd)
 		break;
 	case MOVE:
 		exec_move_act();
+		break;
+	case SWAP:
+		exec_swap_act();
 		break;
 	default:
 		error_no_supported_action();
