@@ -116,17 +116,12 @@ static void exec_loop_start(void)
 	
 	loop_starts[loops_amount] = start_off;
 	loops_amount++;
-
-	
-	printf("The value in register X is: %i\n", reg_x);
 }
 
 static void exec_loop_end(void)
 {
 	if (loops_amount == 0)
 		error_subceeded_min_amount_of_loops();
-
-	printf("The value in register X is: %i", reg_x);
 
 	if (reg_x <= 0) {
 		loop_starts[loops_amount - 1] = 0;
@@ -187,10 +182,4 @@ void execute_c_cmd(struct combo_cmd c_cmd)
 		error_assigning_offsets();
 	
 	exec_act(c_cmd);
-
-
-	printf("This is the value of the register A: %i\n", reg_a);
-	printf("This is the value of the register B: %i\n", reg_b);
-	printf("This is the value of the register X: %i\n", reg_x);
-	printf("This is the value of the register Y: %i\n", reg_y);
 }
