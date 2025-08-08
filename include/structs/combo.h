@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../enums/registers.h"
+#include "../enums/loop_type.h"
 
 struct combo {
 	unsigned int len;
@@ -10,4 +11,6 @@ struct combo {
 	enum reg regs[REGISTERS_AMOUNT];
 	unsigned int regs_op_len[REGISTERS_AMOUNT];
 	unsigned int regs_op_start_off[REGISTERS_AMOUNT];
+
+	loop_t loop;
 };

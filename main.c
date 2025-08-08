@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include "include/enums/actions.h"
+#include "include/enums/loop_type.h"
 #include "include/fileio/file_reading.h"
 #include "include/fileio/fileio_constants.h"
 #include "include/structs/combo_cmd.h"
@@ -38,6 +39,7 @@ int main(int argc, char *argv[])
 		.regs_op_start_off[1] = 0,
 		.regs_op_start_off[2] = 0,
 		.regs_op_start_off[3] = 0,
+		.loop = NO,
 	};
 
 	const bool combo_found = get_next_combo(input_buffer, &combo);
@@ -58,7 +60,6 @@ int main(int argc, char *argv[])
 	analyze_combo(&combo, &combo_cmd, input_buffer);
 	execute_c_cmd(combo_cmd);
 
-/*
 	printf("Amount of registers: %u\n", combo.reg_amount);
 	printf("First register is: %u\n", combo.regs[0]);
 	printf("First operator length is: %u\n", combo.regs_op_len[0]);
@@ -73,6 +74,5 @@ int main(int argc, char *argv[])
 
 	printf("The dst reg offset is: %i\n", combo_cmd.dst_offset);
 	printf("The dst macces is: %i\n", combo_cmd.dst_mem_access);
-*/
 	}
 }
