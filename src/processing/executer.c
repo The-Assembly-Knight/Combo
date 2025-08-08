@@ -53,11 +53,23 @@ static void exec_clear_act(const int src_offset)
 	*src_reg = 0;
 }
 
+static void exec_move_act(void)
+{
+	if (src_reg == dst_reg)
+		error_moving_register_to_itself();
+
+	*dst_reg = *src_reg;
+	*src_reg = 0;
+}
+
 static void exec_act(const struct combo_cmd c_cmd)
 {
 	switch (c_cmd.act) {
 	case CLEAR: 
 		exec_clear_act(c_cmd.src_offset);
+		break;
+	case MOVE:
+		exec_move_act();
 		break;
 	default:
 		error_no_supported_action();
@@ -76,6 +88,5 @@ void execute_c_cmd(struct combo_cmd c_cmd)
 
 
 	printf("This is the value of the register A: %i\n", reg_a);
-
-
+	printf("This is the value of the register B: %i\n", reg_b);
 }

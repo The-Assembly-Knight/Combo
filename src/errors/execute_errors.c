@@ -26,3 +26,9 @@ void error_offset_is_negative(void)
 	perror("ERROR: an offset is negative");
 	exit(EXIT_FAILURE);
 }
+
+void error_moving_register_to_itself(void)
+{
+	perror("ERROR: a combo moves a register to itself, you can not move a register to itself");
+	exit(EXIT_FAILURE);
+}

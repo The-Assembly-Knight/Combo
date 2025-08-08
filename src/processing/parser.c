@@ -121,7 +121,7 @@ static void check_reg_ops(const struct combo *c, struct combo_cmd *c_cmd, char *
 	}
 
 	if (DST_OP_LEN > 0 && r_amount != 1) {
-		char *dst_start_off = buffer + c->regs_op_start_off[r_amount - 1] + 2;
+		char *dst_start_off = buffer + c->regs_op_start_off[r_amount - 1] + 1;
 		assign_mem_access_and_offset(DST_OP_LEN, dst_start_off, &c_cmd->dst_mem_access, &c_cmd->dst_offset);
 	}
 }
